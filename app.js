@@ -1,6 +1,8 @@
-var express = require('express');
-var http = require('http');
+var app = require('express')();
+var server = require('http');
 var fs = require('fs');
+
+server.listen(8080);
 
 //Load index.html
 var server = http.createServer(function(req, res) {
@@ -22,4 +24,3 @@ io.sockets.on('connection', function(socket) {
 });
 
 
-server.listen(8080);
