@@ -1,26 +1,25 @@
 var app = require('express')();
-var server = require('http');
-var fs = require('fs');
-
-server.listen(8080);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var ent = require('ent');
 
 //Load index.html
-var server = http.createServer(function(req, res) {
-  fs.readFile('./index.html', 'utf-8', function(error, content) {
-    res.writeHead(200, {"Content-Type": "text/html"});
-    res.end(content);
-  });
-});
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
+})
 
-//Load socket.io
-var io = require('socket.io').listen(server);
+io.sockets.on('connection', function (socket, pseudo) {
 
-io.sockets.on('connection', function(socket) {
-  socket.broadcast.emit('message', socket.pseudo + ' is connected');
-
-  socket.on('new', function(pseudo) {
+  socket.on('nouveau_client', function(pseudo) {
+    pseudo = ent.encode(pseudo);
     socket.pseudo = pseudo;
+    socket.broadcast.emit('nouveau_client', pseudo);
+  });
+
+  sockets.on('message', function(message) {
+    message = ent.encode(message);
+    socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
   });
 });
 
-
+server.listen(8080);
