@@ -1,0 +1,30 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Chat Io</title>
+</head>
+<body>
+  <style>* {text-align: center;} </style>
+
+  <h2>Super Chat in Real Time</h2>
+
+  <input type="text" placeholder="What's up">
+  <input type="submit" value="Send">
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    var socket = io.connect('http://localhost:8080');
+
+    var pseudo = prompt('Pseudo :');
+    socket.emit('new', pseudo);
+
+    socket.on('message', function(message) {
+      alert(message);
+    })
+
+  
+  </script>
+</body>
+</html>
