@@ -5,24 +5,30 @@
   <title>Chat Io</title>
 </head>
 <body>
-  <style>* {text-align: center;} </style>
+  <style>* {text-align: center; font-family: Verdana, Geneva, Tahoma, sans-serif;} </style>
 
   <h2>Super Chat in Real Time</h2>
 
   <input type="text" placeholder="What's up">
   <input type="submit" value="Send">
+  <div id="messages"></div>
 
   <script src="/socket.io/socket.io.js"></script>
 
   <script>
+    //Connexion
     var socket = io.connect('http://localhost:8080');
-
+    
+    //Pseudo
     var pseudo = prompt('Pseudo :');
-    socket.emit('new', pseudo);
+    socket.emit('nouveau_client', pseudo);
+    console.log(pseudo);
 
-    socket.on('message', function(message) {
-      alert(message);
-    })
+    // Gérer la réception de signaux de type "nouveau_client" envoyés par le serveur. Cela signifie qu'un nouveau client vient de se connecter. Affichez son nom dans un message, comme par exemple "robert a rejoint le Chat !".
+
+    // Gérer la réception de signaux de type "message" envoyés par le serveur. Cela signifie qu'un autre client vient d'envoyer un message sur le Chat et donc qu'il vous faut l'afficher dans la page.
+
+    // Gérer l'envoi du formulaire, lorsque le client veut envoyer un message aux autres personnes connectées. Il vous faudra récupérer le message saisi dans le formulaire en JavaScript, émettre un signal de type "message" au serveur pour qu'il le distribue aux autres clients, et aussi insérer ce message dans votre propre page. Eh oui, n'oubliez pas que le broadcast du serveur envoie un message à toutes les autres personnes connectées mais pas à vous-mêmes... il faut donc mettre à jour votre propre zone de Chat.
 
   
   </script>
